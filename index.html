@@ -11,7 +11,7 @@
             touch-action: manipulation;
         }
         canvas {
-            background-image: url('valentine.png');
+            background-image: url('Untitled design.png');
             background-size: cover;
             display: block;
             margin: auto;
@@ -100,11 +100,11 @@
         function checkWin() {
             if (bricks.every(b => b.status === 0)) {
                 document.getElementById("message").style.display = "block";
-                cancelAnimationFrame(gameLoop);
+                ball.dx = 0;
+                ball.dy = 0;
             }
         }
         
-        let gameLoop;
         function update() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBricks();
@@ -113,7 +113,7 @@
             movePaddle();
             moveBall();
             checkWin();
-            gameLoop = requestAnimationFrame(update);
+            requestAnimationFrame(update);
         }
         
         document.addEventListener("keydown", (e) => {

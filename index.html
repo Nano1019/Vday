@@ -8,6 +8,7 @@
         body {
             text-align: center;
             background-color: #f8e8e8;
+            touch-action: manipulation;
         }
         canvas {
             background-image: url('valentine.png');
@@ -24,7 +25,7 @@
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <canvas id="gameCanvas" width="400" height="500"></canvas>
     <div id="message">HAPPY VALENTINE'S DAY！</div>
     <script>
         const canvas = document.getElementById("gameCanvas");
@@ -33,7 +34,7 @@
         const paddle = { x: 175, y: 480, width: 100, height: 10, dx: 0 };
         const ball = { x: 200, y: 250, radius: 5, dx: 2, dy: -2 };
         
-        const rows = 8, cols = 5;
+        const rows = 5, cols = 4;
         const brickWidth = 90, brickHeight = 30;
         let bricks = [];
         for (let r = 0; r < rows; r++) {
@@ -99,9 +100,11 @@
         function checkWin() {
             if (bricks.every(b => b.status === 0)) {
                 document.getElementById("message").style.display = "block";
+                cancelAnimationFrame(gameLoop);
             }
         }
         
+        let gameLoop;
         function update() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBricks();
@@ -110,7 +113,7 @@
             movePaddle();
             moveBall();
             checkWin();
-            requestAnimationFrame(update);
+            gameLoop = requestAnimationFrame(update);
         }
         
         document.addEventListener("keydown", (e) => {
@@ -120,8 +123,15 @@
         
         document.addEventListener("keyup", () => paddle.dx = 0);
         
+        canvas.addEventListener("touchmove", (e) => {
+            const touchX = e.touches[0].clientX - canvas.offsetLeft;
+            paddle.x = touchX - paddle.width / 2;
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+            e.preventDefault();
+        });
+        
         update();
     </script>
 </body>
 </html>
-

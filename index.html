@@ -8,6 +8,7 @@
         body {
             text-align: center;
             background-color: #f8e8e8;
+            touch-action: none; /* タッチスクロールを防ぐ */
         }
         canvas {
             background-image: url('Untitled design.jpg');
@@ -112,16 +113,38 @@
             checkWin();
             requestAnimationFrame(update);
         }
-        
+
+        // キーボード操作
         document.addEventListener("keydown", (e) => {
             if (e.key === "ArrowLeft") paddle.dx = -5;
             if (e.key === "ArrowRight") paddle.dx = 5;
         });
-        
         document.addEventListener("keyup", () => paddle.dx = 0);
-        
+
+        // タッチ操作の追加
+        let touchStartX = 0;
+
+        canvas.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        canvas.addEventListener("touchmove", (e) => {
+            let touchX = e.touches[0].clientX;
+            let deltaX = touchX - touchStartX;
+            paddle.x += deltaX;
+            touchStartX = touchX;
+
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+
+            e.preventDefault(); // スクロールを防ぐ
+        });
+
+        canvas.addEventListener("touchend", () => {
+            paddle.dx = 0;
+        });
+
         update();
     </script>
 </body>
 </html>
-

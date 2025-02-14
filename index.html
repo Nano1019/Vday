@@ -8,10 +8,9 @@
         body {
             text-align: center;
             background-color: #f8e8e8;
-            touch-action: manipulation;
         }
         canvas {
-            background: url('valentines.png') no-repeat center;
+            background-image: url('valentine_bg.jpg');
             background-size: cover;
             display: block;
             margin: auto;
@@ -31,15 +30,15 @@
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         
-        const paddle = { x: 100, y: 480, width: 100, height: 10, dx: 0 };
-        const ball = { x: 150, y: 250, radius: 5, dx: 2, dy: -2 };
+        const paddle = { x: 175, y: 480, width: 100, height: 10, dx: 0 };
+        const ball = { x: 200, y: 250, radius: 5, dx: 2, dy: -2 };
         
         const rows = 8, cols = 3;
         const brickWidth = 80, brickHeight = 30;
         let bricks = [];
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                bricks.push({ x: c * (brickWidth + 5) + 5, y: r * (brickHeight + 5) + 50, status: 1 });
+                bricks.push({ x: c * (brickWidth + 10) + 15, y: r * (brickHeight + 10) + 30, status: 1 });
             }
         }
         
@@ -88,20 +87,18 @@
         }
         
         function resetGame() {
-            ball.x = 150;
+            ball.x = 200;
             ball.y = 250;
             ball.dx = 2;
             ball.dy = -2;
-            paddle.x = 100;
-            bricks.forEach(b => b.status = 1);
+            paddle.x = 175;
+            for (let b of bricks) b.status = 1;
             document.getElementById("message").style.display = "none";
         }
         
         function checkWin() {
             if (bricks.every(b => b.status === 0)) {
                 document.getElementById("message").style.display = "block";
-                ball.dx = 0;
-                ball.dy = 0;
             }
         }
         
@@ -123,15 +120,8 @@
         
         document.addEventListener("keyup", () => paddle.dx = 0);
         
-        canvas.addEventListener("touchmove", (e) => {
-            const touchX = e.touches[0].clientX - canvas.offsetLeft;
-            paddle.x = touchX - paddle.width / 2;
-            if (paddle.x < 0) paddle.x = 0;
-            if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
-            e.preventDefault();
-        });
-        
         update();
     </script>
 </body>
 </html>
+

@@ -10,7 +10,7 @@
             background-color: #f8e8e8;
         }
         canvas {
-            background-image: url('valentine.png');
+            background-image: url('valentine_bg.jpg');
             background-size: cover;
             display: block;
             margin: auto;
@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="400" height="500"></canvas>
+    <canvas id="gameCanvas" width="500" height="500"></canvas>
     <div id="message">HAPPY VALENTINE'S DAY！</div>
     <script>
         const canvas = document.getElementById("gameCanvas");
@@ -34,7 +34,7 @@
         const ball = { x: 200, y: 250, radius: 5, dx: 2, dy: -2 };
         
         const rows = 8, cols = 5;
-        const brickWidth = 90, brickHeight = 40;
+        const brickWidth = 90, brickHeight = 80;
         let bricks = [];
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
@@ -124,3 +124,4 @@
     </script>
 </body>
 </html>
+
